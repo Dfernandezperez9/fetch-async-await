@@ -1,0 +1,72 @@
+const searchInput = document.getElementById("searchInput")
+const searchBtn = document.getElementById("searchBtn")
+const prevBtn = document.getElementById("prevBtn")
+const nextBtn = document.getElementById("nextBtn")
+const resetBtn = document.getElementById("resetBtn")
+const app = document.getElementById("app")
+const contenedorFinal = document.querySelector('.contenedorFinal')
+let page = 0
+
+const getPokemon = async () => {
+    try {
+        const respuesta = await fetch(`https://pokeapi.co/api/v2/pokemon/?offset=${page}&limit=10`);
+        const data = await respuesta.json();
+        const promesas = data.results.map(async (pokemon) => {
+            const pokemonRespuesta = await fetch(pokemon.url);
+            const pokemonData = await pokemonRespuesta.json();
+
+            const template = `
+            <div class="card">
+                <img class="pokeFoto" src="${pokemonData.sprites.front_default}"  alt="${pokemonData.name}"/>
+                <p class="pokeParrafo"><strong>${pokemonData.name}</strong></p>
+            </div>`; 
+            app.innerHTML += template;
+        });
+        await Promise.all(promesas);
+    } catch (error) {
+        console.log(error);
+    }
+  };
+
+  getPokemon();
+nextBtn.addEventListener("click", () => {
+  app.innerHTML = "";
+  page += 10;
+  getPokemon();
+});
+prevBtn.addEventListener("click", () => {
+  app.innerHTML = "";
+  if (page < 10) {
+      page = 10;
+  }
+  page -= 10;
+  getPokemon();
+});
+
+searchBtn.addEventListener("click", async () => {
+    const name = searchInput.value;
+    try {
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
+        if (!response.ok) {
+            app.innerHTML = `<p class="error-message">Pokemon no encontrado</p>`;
+            return;
+        }
+        const data = await response.json();
+        app.innerHTML = "";
+        const template = `
+        <div class="card">
+            <img src="${data.sprites.front_default}" alt="${data.name}"/>
+            <p>${data.name}</p>
+        </div>`; 
+        app.innerHTML += template;
+    } catch (error) {
+        console.log(error);
+        app.innerHTML = `<p class="error-message">Pokemon no encontrado</p>`;
+    }
+  });
+  resetBtn.addEventListener('click', () => {
+    searchInput.value = "";
+    app.innerHTML = "";
+    getPokemon();
+  });
+

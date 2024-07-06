@@ -14,17 +14,9 @@ header {
 
 .poke-logo {
   width: 200px;
-
 }
 
-#app {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 20px;
 
-  padding: 20px;
-}
 
 .pagination {
   display: flex;
@@ -38,7 +30,6 @@ header {
 }
 
 #searchInput {
-
   padding: 8px;
   margin: 0 8px;
   border: 1px solid #ddd;
@@ -65,4 +56,49 @@ header {
 
 #searchBtn:hover, #prevBtn:hover, #nextBtn:hover, #resetBtn:hover {
   opacity: 0.8;
+}
+
+
+.pokeFoto {
+  position: relative;
+  right: 35px;
+  top: 40px;
+  width: 150px;
+  height: 150px;
+}
+
+
+
+#app {
+  position: relative;
+  top: 100px;
+  left: 600px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  height: 800px;
+  width: 800px;
+}
+
+.pokeFoto:hover {
+  border: 2px solid black;
+  height: 180px;
+  width: 180px;
+  background-color: blanchedalmond;
+  border-radius: 15px;
+  z-index: 1;
+}
+
+.pokeParrafo {
+  position: relative;
+  top: 30px;
+  z-index: 999;
+}
+
+.pokeParrafo:hover {
+  font-size: 20px;
+  z-index: 999;
+  
 }
